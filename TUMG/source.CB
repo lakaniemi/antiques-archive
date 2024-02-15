@@ -1,0 +1,491 @@
+SCREEN 800,600
+SetWindow "TUMG - Tha Ultimate Mouse Game #1",0,"Are you sure want to exit?"
+If Not FileExists("C:\TUMG_SAVE.save") Then
+    f = OpenToWrite("C:\TUMG_SAVE.save")
+        WriteLine f,0
+    CloseFile f
+EndIf 
+
+loading:
+
+Print "Loading... (data/gfx/bigbullet.PNG)"
+Global bb
+bb = LoadObject("data/gfx/bigbullet.PNG",72)
+ShowObject bb,OFF
+Print "DONE!"
+
+Print "Loading... (data/gfx/back.PNG)"
+Global back
+back = LoadImage("data/gfx/back.PNG")
+MaskImage back,cbmagenta
+Print "DONE!"
+
+Print "Loading... (data/gfx/cannon.PNG)"
+Global turret
+turret = LoadObject("data/gfx/cannon.PNG",72)
+ShowObject turret,OFF
+Print "DONE!"
+
+Print "Loading... (data/gfx/big.PNG)"
+Global menu
+menu = LoadImage("data/gfx/big.PNG")
+Print "DONE!"
+
+Print "Loading... (data/gfx/bullet.PNG)"
+Global bullet
+bullet = LoadObject("data/gfx/bullet.PNG",72)
+MaskObject bullet,cbmagenta
+ShowObject bullet,OFF
+Print "DONE!"
+
+Print "Loading... (data/gfx/car.PNG)"
+Global car
+car = LoadObject("data/gfx/car.PNG",72)
+MaskObject car,cbmagenta
+ShowObject car,OFF
+Print "DONE!"
+
+Print "Loading... (data/gfx/copter.PNG)"
+Global copter
+copter = LoadAnimObject("data/gfx/copter.PNG",25,16,0,7,72)
+MaskObject copter,cbmagenta
+ShowObject copter,OFF 
+Print "DONE!"
+
+Print "Loading... (data/gfx/ufo.PNG)"
+Global ufo
+ufo = LoadImage("data/gfx/ufo.PNG")
+Print "DONE!"
+
+Print "Loading... (data/gfx/logo.PNG)"
+Global logo
+logo = LoadImage("data/gfx/logo.PNG")
+MaskImage logo,cbmagenta
+Print "DONE!"
+
+Print "Loading... (data/gfx/b_New_Game.PNG)"
+Global newgame
+newgame = LoadImage("data/gfx/b_New_Game.PNG")
+MaskImage newgame,cbmagenta
+Print "DONE!"
+
+Print "Loading... (data/gfx/b_New_Game_hover.PNG)"
+Global newgame_h
+newgame_h = LoadImage("data/gfx/b_New_Game_hover.PNG")
+MaskImage newgame_h,cbmagenta
+Print "DONE!"
+
+Print "Loading... (data/gfx/b_High_Scores.PNG)"
+Global highscores
+highscores = LoadImage("data/gfx/b_High_Scores.PNG")
+MaskImage highscores,cbmagenta
+Print "DONE!"
+
+Print "Loading... (data/gfx/b_High_Scores_hover.PNG)"
+Global highscores_h
+highscores_h = LoadImage("data/gfx/b_High_Scores_hover.PNG")
+MaskImage highscores_h,cbmagenta
+Print "DONE!"
+
+Print "Loading... (data/gfx/b_Quit.PNG)"
+Global quit
+quit = LoadImage("data/gfx/b_Quit.PNG")
+MaskImage quit,cbmagenta
+Print "DONE!"
+
+Print "Loading... (data/gfx/b_Quit_hover.PNG)"
+Global quit_h
+quit_h = LoadImage("data/gfx/b_Quit_hover.PNG")
+MaskImage quit_h,cbmagenta
+Print "DONE!"
+
+Print "Loading... (data/gfx/suoja.PNG)"
+Global suoja
+suoja = LoadObject("data/gfx/suoja.PNG")
+MaskObject suoja,cbmagenta
+ShowObject suoja,OFF
+Print "DONE!"
+
+Print "Loading... (data/gfx/hp.PNG)"
+Global hoopee
+hoopee = LoadObject("data/gfx/hp.PNG")
+MaskObject hoopee,cbmagenta
+ShowObject hoopee,OFF
+Print "DONE!"
+
+Print "Creating objects...."
+Global mouse
+mouse = MakeObject()
+Print "Mouse OK"
+Global newgame_o
+newgame_o = MakeObject()
+PaintObject newgame_o,-newgame
+PositionObject newgame_o,-300,-100
+Global highscores_o
+highscores_o = MakeObject()
+PaintObject highscores_o,-highscores
+MaskObject highscores_o,cbmagenta
+PositionObject highscores_o,-300,-150
+Global quit_o
+quit_o = MakeObject()
+PaintObject quit_o,-quit
+MaskObject quit_o,cbmagenta
+PositionObject quit_o,-300,-200
+
+Print "DONE!"
+
+Print "Loading fonts...."
+Global fontti
+fontti=LoadFont("arial",20,ON)
+Print "DONE!"
+
+Global objnro
+
+Dim onnittelu(3) As String 
+    onnittelu(0) = "Congratulations, that's a new highscore! Press enter to return to the menu!"
+    onnittelu(1) = "Well done, a new highscore! Return to menu by pressing enter key!"
+    onnittelu(2) = "Woah! You just got a new highscore! Press enter to return to menu!"
+    onnittelu(3) = "Congratulations, you just got a highscore! Press enter to return to menu!"
+menu:
+
+SetFont fontti
+Color cbblack
+Repeat
+    DrawImage menu,0,0
+    DrawImage logo,400+Sin(Timer()/30)*30,80+Sin(Timer()/35)*15
+    DrawGame 
+    MousePos()
+    Text ScreenWidth()-60,ScreenHeight()-16,"FPS: "+FPS()
+    If ObjectsOverlap(mouse,newgame_o) Then
+        DrawImage newgame_h,31,380
+        If MouseHit(1) Then Goto game
+    Else
+        DrawImage newgame,31,380
+    EndIf 
+    If ObjectsOverlap(mouse,highscores_o) Then 
+        DrawImage highscores_h,31,430
+        If MouseHit(1) Then Gosub HighScores
+    Else
+        DrawImage highscores,31,430
+    EndIf 
+    If ObjectsOverlap(mouse,quit_o) Then
+        DrawImage quit_h,31,480
+        If MouseHit(1) Then End
+    Else
+        DrawImage quit,31,480
+    EndIf 
+    If SoundPlaying(musa)=0 Then
+        musa = PlaySound("data/sfx/menumusa.mp3")
+    EndIf 
+    DrawScreen
+Forever 
+
+game:
+//alkuvalmisteluita
+Cls
+ShowObject newgame_o,OFF
+ShowObject highscores_o,OFF
+ShowObject quit_o,OFF
+ShowMouse OFF
+x#=ScreenWidth()/2
+y#=ScreenHeight()/2
+Global ufo_o
+ufo_o = MakeObject()
+PaintObject ufo_o,-ufo
+MaskObject ufo_o,cbmagenta
+PositionMouse 400,100
+//^^
+
+Type kaara
+  Field obj
+  Field piippu
+  Field reload
+  Field pati
+  Field nopeus
+  Field padit
+  Field minne
+EndType 
+
+Type kaara_ammus
+  Field obj
+EndType
+
+Type kopteri
+  Field obj
+  Field minne
+  Field ammuttu
+  Field ptyyppi
+EndType 
+
+Type kopteri_ammus
+  Field obj
+  Field ismis
+EndType 
+
+Type PowerUp
+  Field tyyppi
+  Field obj
+EndType
+
+ajastin=Timer()
+lol=Timer()
+pu=Timer()
+addaa=Timer()
+
+voikuolla=0
+vaikeus=5
+a=0
+hp=3
+missile=0
+points=0
+
+Repeat
+    DrawImage back,0,0
+    DrawGame
+    If SoundPlaying(musa)=0 Then
+        musa = PlaySound("data/sfx/menumusa.mp3")
+    EndIf 
+    If hp<0 Then Goto submit
+    //ufo
+    x2#=MouseX()-ScreenWidth()/2
+    y2#=-MouseY()+ScreenHeight()/2
+    x#=x#*0.9+x2#*0.1
+    y#=y#*0.9+y2#*0.1
+    PositionObject ufo_o,x,y
+    Text ScreenWidth()-60,ScreenHeight()-16,"FPS: "+FPS()
+    Text 0,0,"Lives: "+hp
+    Text 0,20,"Points: "+points
+    Text 0,40,"Level: "+(5-vaikeus)
+    If Timer()>pu+120000/vaikeus And Rand(0,1)=0 Then
+       p.PowerUp=New(powerup)
+       p\tyyppi = 0
+       p\obj = CloneObject(hoopee)
+       PositionObject p\obj, Rand(-380,380), Rand(-210,300)
+       pu=Timer()
+    ElseIf Timer()>pu+120000/vaikeus And Rand(0,1)=1 Then
+       p.PowerUp=New(powerup)
+       p\tyyppi=1
+       p\obj=CloneObject(suoja)
+       PositionObject p\obj, Rand(-380,380), Rand(-210,300)
+       pu=Timer() 
+    EndIf 
+    For p.powerup = Each powerup
+        If ObjectsOverlap(ufo_o,p\obj) Then
+            If p\tyyppi=0 Then
+                hp+1
+            Else
+                voikuolla=0
+                paamaara=50
+            EndIf
+            DeleteObject p\obj
+            Delete p
+            Exit
+        EndIf 
+    Next p
+    If Timer()>ajastin+1000*vaikeus And Rand(0,10)<5 Then
+       k.kaara = New(kaara)
+       k\obj = CloneObject(car)
+       k\piippu = CloneObject(turret)
+       k\pati = CloneObject(bullet)
+       ShowObject k\pati,OFF
+       k\nopeus = Rand(1,2)
+       k\padit = Rand(1,5)
+       k\reload = 0
+       k\minne = ObjectX(ufo_o)
+       PositionObject k\obj,-400,Rand(-210,-300)
+       ajastin=Timer()
+    ElseIf Timer()>ajastin+1000*vaikeus And Rand(0,10)=>5 Then
+       kop.kopteri = New(kopteri)
+       kop\obj = CloneObject(copter)
+       kop\minne = ObjectX(ufo_o)
+       kop\ammuttu = 0
+       kop\ptyyppi = Rand(0,10)
+       PositionObject kop\obj,-400,Rand(0,300)
+       ajastin=Timer()
+    EndIf
+    If Not voikuolla Then
+       If Timer()>lol+100 Then 
+          blink=Not blink
+          lol=Timer()
+          asd+1
+       EndIf
+       If blink Then ShowObject ufo_o,OFF Else ShowObject ufo_o,ON
+       If asd=paamaara Then voikuolla=1:asd=0
+    EndIf
+    If missile And Timer()<poista+2000 Then
+       Text 300,300,"MISSILE IN THE AIR!!!"
+    EndIf 
+    For ka.kaara = Each kaara
+       If ka\padit > 0 Then
+          If ObjectX(ka\obj) < ka\minne Then
+             MoveObject ka\obj,ka\nopeus
+          Else
+             If ka\reload = 0 Then
+                luoti.kaara_ammus = New(kaara_ammus)
+                luoti\obj = CloneObject(bullet)
+                CloneObjectPosition luoti\obj,ka\piippu        
+                CloneObjectOrientation luoti\obj,ka\piippu
+                ka\reload = 50*vaikeus
+                ka\padit - 1
+             EndIf 
+             If ka\reload > 0 Then ka\reload-1
+          EndIf    
+       Else
+          MoveObject ka\obj,ka\nopeus
+          If ObjectX(ka\obj) = ScreenWidth() Then DeleteObject ka\obj:DeleteObject ka\piippu:Delete ka:Exit
+       EndIf
+       CloneObjectPosition ka\piippu,ka\obj
+       PointObject ka\piippu,ufo_o
+    Next ka
+    For luoti.kaara_ammus = Each kaara_ammus
+       MoveObject luoti\obj,8
+       If ObjectsOverlap(luoti\obj,ufo_o) Then
+          If voikuolla = 1 Then
+             hp-1
+             lol=Timer()
+             voikuolla = 0
+             paamaara=10
+          EndIf 
+       EndIf
+    Next luoti
+    For c.kopteri = Each kopteri
+       If Not c\ammuttu Then 
+          If ObjectX(c\obj) < c\minne Then
+              MoveObject c\obj,1
+          Else
+              If c\ptyyppi>1*vaikeus Then
+                  pati.kopteri_ammus = New(kopteri_ammus)
+                  pati\obj = CloneObject(bb)
+                  pati\ismis = 1
+                  CloneObjectPosition pati\obj,c\obj       
+                  PointObject pati\obj,ufo_o
+                  missile=1
+                  poista=Timer()
+              Else
+                  pati.kopteri_ammus = New(kopteri_ammus)
+                  pati\obj = CloneObject(bullet)
+                  pati\ismis=0
+                  CloneObjectPosition pati\obj,c\obj       
+                  PointObject pati\obj,ufo_o
+              EndIf 
+              c\ammuttu = 1
+          EndIf 
+       Else
+          MoveObject c\obj,1
+          If ObjectX(c\obj) = ScreenWidth() Then DeleteObject c\obj:Delete c:Exit
+       EndIf 
+       For pati.kopteri_ammus = Each kopteri_ammus
+           MoveObject pati\obj,5
+           If pati\ismis Then PointObject pati\obj,ufo_o
+           If ObjectsOverlap(pati\obj,ufo_o) Then
+              If voikuolla = 1 Then
+                 hp-1
+                 lol=Timer()
+                 voikuolla = 0
+                 paamaara=10
+              EndIf 
+              DeleteObject pati\obj
+              Delete pati
+              Exit
+           EndIf
+       Next pati
+       PlayObject c\obj,0,7  
+    Next c
+    If Timer()>addaa+1000 Then points+1:addaa=Timer()
+    If points>30 Then vaikeus=4
+    If points>60 Then vaikeus=3
+    If points>100 Then vaikeus=2
+    If points>150 Then vaikeus=1
+    If KeyHit(cbkeyp) Then Gosub pause
+    //-400,-210
+    //^^
+    DrawScreen
+Forever 
+
+pause:
+
+//asfas123
+Text 350,300,"PAUSED!"
+DrawScreen
+WaitKey
+Return 
+
+submit:
+
+ShowMouse ON
+DeleteObject ufo_o
+
+For c.kopteri = Each kopteri
+    DeleteObject c\obj
+    Delete c
+Next c
+
+For k.kaara = Each kaara
+    DeleteObject k\piippu
+    DeleteObject k\obj
+    Delete k
+Next k
+
+For p.powerup = Each powerup
+    DeleteObject p\obj
+    Delete p
+Next p
+
+For kaa.kaara_ammus = Each kaara_ammus
+    DeleteObject kaa\obj
+    Delete kaa
+Next kaa
+
+For koo.kopteri_ammus = Each kopteri_ammus
+    DeleteObject koo\obj
+    Delete koo
+Next koo
+
+ennatys = OpenToRead("C:\TUMG_SAVE.save")
+    tulos = ReadLine(ennatys)
+CloseFile ennatys
+
+If points>tulos Then
+    filu=OpenToWrite("C:\TUMG_SAVE.save")
+        WriteLine filu,points
+    CloseFile filu
+    Locate 0,20
+    luku=Rand(0,3)
+    Repeat
+        Text 0,0,onnittelu(luku)
+        ClsColor cbwhite
+        Color cbblack
+        DrawScreen
+    Until KeyHit(28)
+Else
+    Repeat
+        Text 0,0,"You lose. Press enter To Return To menu."
+        ClsColor cbwhite
+        Color cbblack
+        DrawScreen
+    Until KeyHit(28) 
+EndIf
+Goto menu
+
+HighScores:
+Cls
+ShowObject newgame_o,OFF
+ShowObject highscores_o,OFF
+ShowObject quit_o,OFF
+fil=OpenToRead("C:\TUMG_SAVE.save")
+    score$=ReadLine(fil)
+CloseFile fil
+Repeat
+    ClsColor cbwhite
+    Color cbblack
+    Text 100,100,"HighScore: "+score$
+    Text 100,120,"- Press enter To return -"
+    DrawScreen
+Until KeyHit(cbkeyreturn)
+Return 
+
+
+//MENUFUNKKARIT//
+Function MousePos()
+  PositionObject mouse,MouseWX(),MouseWY()
+EndFunction 
