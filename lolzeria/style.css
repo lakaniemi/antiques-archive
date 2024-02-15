@@ -1,0 +1,247 @@
+body {
+
+width: 820px;
+text-align: center;
+font-size: 12pt;
+background-color: #FFF;
+margin-left: auto;
+margin-right: auto;
+font-family: "Palatino Linotype","Book Antiqua",Palatino,serif;
+
+}
+
+
+img {
+
+border: 0;
+
+}
+
+html body {
+
+min-width: 820px;
+width: 97% !important;
+max-width: 1010px;
+
+}
+
+h1, h2, h3, h4, h5, h6 {
+
+font-weight: bold;
+
+}
+
+h3, h4, h5, h6 {
+
+font-style: italic;
+
+}
+
+h5, h6 {
+
+text-decoration: underline;
+
+}
+
+h1 {
+
+font-size: 16pt;
+
+}
+
+h2 {
+
+font-size: 26pt;
+
+}
+
+h3 {
+
+font-size: 22pt;
+
+}
+
+h4 {
+
+font-size: 18pt;
+
+}
+
+h5 {
+
+font-size: 18pt;
+
+}
+
+h6 {
+
+font-size: 16pt;
+
+}
+
+div {
+
+padding: 0.5em;
+
+}
+
+a {
+
+color: #669;
+font-weight: bold;
+text-decoration: none;
+
+}
+
+a:visited {
+
+color: #336;
+
+}
+
+a:hover {
+
+
+
+}
+
+
+div#cent0r {
+
+text-align: left;
+height: 100%;
+width: 100%;
+background: transparent;
+margin-left: auto;
+margin-right: auto;
+
+}
+
+div#content {
+
+/*border: 4px solid #DDD;*/
+
+}
+
+div#logo {
+
+/*border: 1px solid #000;*/
+height: 100px;
+padding: 0px;
+width: 500px;
+margin-left: auto;
+margin-right: auto;
+
+}
+
+div#logo h1
+{
+
+font-size: 0;
+color: #FFF;
+
+}
+
+div#tsat {
+	height: 300px;
+	overflow: auto;
+
+}
+
+
+
+div#nav {
+
+margin-top: 5px;
+margin-bottom: 5px;
+/*border-top: 4px solid #E8E8E8;
+border-bottom: 4px solid #E8E8E8;*/
+
+}
+
+div#nav a {
+
+font-size: 13pt;
+padding-right: 0px;
+padding-left: 0px;
+margin-right: 1px;
+margin-left: 1px;/*
+border: none;
+border-right: 1px solid #CCC;
+border-left: 1px solid #CCC;
+
+*/
+}
+
+div#nav a:hover {
+
+background: #CCF;
+
+}
+
+div#body {
+
+border: 1px solid #000;
+background: #F0F0F0;
+
+}
+
+.chattilol 
+{
+	width: 100px;
+}
+
+.timestamp
+{
+
+color: #99C;
+font-size: 0.7em;
+
+}
+
+div#footer {
+
+
+
+}
+
+* html .iehack_500 {
+	
+border-left: transparent solid 820px;
+
+}
+
+* html .iehack2_500 {
+
+border-left: transparent solid -820px;
+
+}
+
+
+* html .iehack-center {
+
+text-align: center;
+margin-left: auto;
+margin-right: auto;
+
+}
+
+.minitext {
+
+font-size: 8pt;
+
+}
+
+.left {
+
+text-align: left;
+
+}
+
+td {
+
+margin-right: 3px;
+padding: 0.1em;
+	
+}
+

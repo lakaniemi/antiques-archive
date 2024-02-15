@@ -1,0 +1,9 @@
+TODO v. 2,3:
+
+- Linkit klikattavaksi yleistsätissä TEHTY (ehkä myöhemmin muuallekkin)
+- Albumien uudelleennimeäminen TEHTY
+- Typofix TEHTY
+- Adminominaisuuksien parantaminen TEHTY
+- Teematuki
+- Kotisivu-kohta profiiliin
+- Yleisiä parannuksia käyttäjäystävällisyyteen TEHTY

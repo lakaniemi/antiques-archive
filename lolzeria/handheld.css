@@ -1,0 +1,27 @@
+body {
+
+width: 100%;
+
+}
+
+
+html body {
+
+min-width: 500px;
+width: 100% !important;
+
+}
+
+
+div#logo {
+
+margin-bottom: 10px;
+
+}
+
+
+div#nav {
+
+margin-top: 20px;
+
+}

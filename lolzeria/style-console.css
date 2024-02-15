@@ -1,0 +1,57 @@
+@include "style.css"
+
+body {
+
+background-color: #000;
+font-family: "Courier New",Courier,monospace;
+color: #0F0;
+
+}
+
+a
+{
+
+color: #6F6;
+
+}
+
+a:visited {
+
+color: #090;
+
+}
+
+div#nav a:hover {
+
+background: #030;
+
+}
+
+div#body {
+
+border: 1px solid #0F0;
+background: #000;
+
+}
+
+.timestamp
+{
+
+color: #363;
+
+}
+
+input,textarea
+{
+
+border: 1px solid #0F0;
+background-color: #000;
+color: #0F0;
+
+}
+
+
+.chattilol 
+{
+	width: 130px;
+}
